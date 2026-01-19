@@ -52,8 +52,9 @@ def browser_type_launch_args(browser_type_launch_args):
         **browser_type_launch_args,
         "headless": False,
         "args": [
-            # "--start-maximized",
-            "--window-size=1920,1080",
+            "--start-maximized",
+            # "--window-size=1920,1080",
+            # "--window-size=3440,1440",
         ],
         # "slow_mo": 1000,
     }
@@ -63,7 +64,9 @@ def browser_context_args(browser_context_args):
     return {
         **browser_context_args,
         "viewport": {
-            "width": 1920,
-            "height": 1080,
+            "width": 3440,
+            "height": 1440,
+            # "width": 1920,
+            # "height": 1080,
         },
     }
