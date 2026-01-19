@@ -67,9 +67,6 @@ class TestLogin:
 
 
 
-
-
-
     #
     # def test_wrong_password(self, page):
     #     """Тест логина с неверным паролем"""

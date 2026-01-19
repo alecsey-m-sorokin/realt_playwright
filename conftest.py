@@ -24,21 +24,46 @@ from playwright.sync_api import sync_playwright
 #     page.close()
 #     context.close()
 
+# @pytest.fixture(scope="session", autouse=True)
+# def browser_type_launch_args():
+#     return {
+#         "headless": False,
+#         "args": [
+#             "--start-maximized",
+#             # "--window-size=`1920,1080",
+#             # "--slow_mo=1000",
+#             "--screenshot only - on - failure"
+#         ]
+#     }
+#
+# @pytest.fixture(scope="session", autouse=True)
+# def browser_context_args():
+#     return {
+#         "no_viewport": False,
+#         "viewport": {
+#             "width": 1920,
+#             "height": 1080,
+#         },
+#     }
+
 @pytest.fixture(scope="session", autouse=True)
-def browser_type_launch_args():
+def browser_type_launch_args(browser_type_launch_args):
     return {
+        **browser_type_launch_args,
         "headless": False,
         "args": [
-            "--start-maximized",
-            # "--window-size=`1920,1080",
-            "--slowmo=1000",
-            "--screenshot only - on - failure"
-
-        ]
+            # "--start-maximized",
+            "--window-size=1920,1080",
+        ],
+        # "slow_mo": 1000,
     }
 
 @pytest.fixture(scope="session", autouse=True)
-def browser_context_args():
+def browser_context_args(browser_context_args):
     return {
-        "no_viewport": True,
+        **browser_context_args,
+        "viewport": {
+            "width": 1920,
+            "height": 1080,
+        },
     }

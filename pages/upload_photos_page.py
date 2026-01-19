@@ -26,6 +26,7 @@ class UploadMediaPage:
         # Загружаем файлы
         file_chooser = fc_info.value
         files = UploadPhotosPageLocators.PHOTOS.value
+        logger.info(files)
         file_chooser.set_files(files=files, timeout=self.file_chooser_timeout)
 
         # Проверяем успешность загрузки
