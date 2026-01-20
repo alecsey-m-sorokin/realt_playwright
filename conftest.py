@@ -1,5 +1,12 @@
 import pytest
+from loguru import logger
 from playwright.sync_api import sync_playwright
+
+from utils.functions import get_primary_monitor_resolution
+
+
+SCREEN_WIDTH, SCREEN_HEIGHT = get_primary_monitor_resolution()
+logger.warning(f"SCREEN_WIDTH: {SCREEN_WIDTH}, SCREEN_HEIGHT: {SCREEN_HEIGHT}")
 
 
 # @pytest.fixture(scope="session")
@@ -64,8 +71,8 @@ def browser_context_args(browser_context_args):
     return {
         **browser_context_args,
         "viewport": {
-            "width": 3440,
-            "height": 1440,
+            "width": SCREEN_WIDTH,
+            "height": SCREEN_HEIGHT,
             # "width": 1920,
             # "height": 1080,
         },
