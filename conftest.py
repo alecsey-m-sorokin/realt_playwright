@@ -2,10 +2,10 @@ import pytest
 from loguru import logger
 from playwright.sync_api import sync_playwright
 
-from utils.functions import get_primary_monitor_resolution
+from utils.functions import get_monitor_resolution
 
 
-SCREEN_WIDTH, SCREEN_HEIGHT = get_primary_monitor_resolution()
+SCREEN_WIDTH, SCREEN_HEIGHT = get_monitor_resolution()
 logger.warning(f"SCREEN_WIDTH: {SCREEN_WIDTH}, SCREEN_HEIGHT: {SCREEN_HEIGHT}")
 
 
@@ -59,9 +59,9 @@ def browser_type_launch_args(browser_type_launch_args):
         **browser_type_launch_args,
         "headless": False,
         "args": [
-            "--start-maximized",
-            # "--window-size=1920,1080",
+            f"--window-size={SCREEN_WIDTH},{SCREEN_HEIGHT}",
             # "--window-size=3440,1440",
+            "--start-maximized",
         ],
         # "slow_mo": 1000,
     }

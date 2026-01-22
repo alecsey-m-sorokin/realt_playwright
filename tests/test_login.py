@@ -1,4 +1,5 @@
 # Pages
+from locators.upload_photos_page_locators import UploadPhotosPageLocators
 from pages.add_adv_page import AddAdvPage
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
@@ -7,6 +8,7 @@ from pages.main_page import MainPage
 from data.users import User
 from pages.sell_flat_add_adv_page import SellFlatAddAdvPage
 from pages.upload_photos_page import UploadMediaPage
+from utils.functions import get_project_root
 
 
 class TestLogin:
@@ -52,7 +54,9 @@ class TestLogin:
         sell_flat_add_adv_page.fill_terms_of_deal_currency_ownership(ownership="Частная")
         sell_flat_add_adv_page.fill_terms_of_deal_terms_of_deal(terms_of_deal="Чистая продажа")
 
-        upload_media_page.upload_photos()
+        project_root = get_project_root()
+        photos = [(project_root / item).as_posix() for item in UploadPhotosPageLocators.PHOTOS.value]
+        upload_media_page.upload_photos(photos=photos)
 
         sell_flat_add_adv_page.fill_description_short_description(short_description="Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat.")
         sell_flat_add_adv_page.fill_contacts_phones(phones="296645311")

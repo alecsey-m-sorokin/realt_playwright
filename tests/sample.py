@@ -72,19 +72,15 @@ def run(playwright: Playwright) -> None:
 
 
     file_chooser_timeout = 15000
-    upload_verification_timeout = 30000
-    post_upload_delay = 5000
-
     project_root = get_project_root()
     photos = [(project_root / item).as_posix() for item in UploadPhotosPageLocators.PHOTOS.value]
 
-    with page.expect_file_chooser(timeout=file_chooser_timeout) as fc_info:
-        page.locator(selector=UploadPhotosPageLocators.SELECT_PHOTOS_BUTTON.value).click()
-    file_chooser = fc_info.value
-    file_chooser.set_files(files=photos, timeout=upload_verification_timeout)
+    # with page.expect_file_chooser(timeout=file_chooser_timeout) as fc_info:
+    #     page.locator(selector=UploadPhotosPageLocators.SELECT_PHOTOS_BUTTON.value).click()
+    # file_chooser = fc_info.value
+    # file_chooser.set_files(files=photos, timeout=file_chooser_timeout)
 
-
-    # UploadMediaPage(page).upload_photos()
+    UploadMediaPage(page).upload_photos(photos)
 
     # page.get_by_role("button", name="Выберите фотографии").set_input_files(files=photos, timeout=15000)
     page.get_by_role("textbox", name="Краткое описание").click()
