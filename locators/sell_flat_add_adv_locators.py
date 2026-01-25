@@ -17,11 +17,12 @@ class   SellFlatAddAdvLocators(Enum):
     LOCATION_DROPDOWN = 'li, div[role="option"], div, span'
     HOUSE_NUMBER = '//*[@id="location.houseNumber"]'
     BUILDING_NUMBER = '//*[@id="location.buildingNumber"]'
-    APARTMENT_ROOMS = '//*[@id="apartment"]//*[text()="{rooms}"]'
+
     # self.page.get_by_role("button").filter(has_text="3").click()  # ok
     # self.page.locator('//div[contains(@class, "rooms") or contains(@class, "komnat")] //button | //div[@role="button"]' '[normalize-space(.)="3"]').click()  # ok
     # self.page.locator('div.flex > button:text("3"), div.flex > div[role="button"]:text("3")').first.click()  # ok
     # self.page.locator(f'//*[@id="apartment"]//*[text()="{rooms}"]').click()  # ok
+    APARTMENT_ROOMS = '//*[@id="apartment"]//*[text()="{rooms}"]'
     SEPARATE_ROOMS = '//*[@id="apartment.separateRooms"]'
     APARTMENT_STOREY = '//*[@id="apartment.storey"]'
     APARTMENT_BALCONY = '//*[@id="apartment"]//*[text()="{balcony}"]'

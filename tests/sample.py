@@ -1,11 +1,7 @@
-import re
-from pathlib import Path
+from playwright.sync_api import Playwright, sync_playwright, ViewportSize
 
-from loguru import logger
-from playwright.sync_api import Playwright, sync_playwright, expect, Page, ViewportSize
-
-from locators.upload_photos_page_locators import UploadPhotosPageLocators
-from pages.upload_photos_page import UploadMediaPage
+from locators.media_page.upload_photos_page_locators import UploadPhotosPageLocators
+from pages.media_page.upload_photos_page import UploadMediaPage
 from utils.functions import get_project_root, get_monitor_resolution
 
 SCREEN_WIDTH, SCREEN_HEIGHT = get_monitor_resolution()
