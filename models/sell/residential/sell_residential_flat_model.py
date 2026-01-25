@@ -3,7 +3,7 @@ from typing import Optional, Any, List
 
 
 @dataclass
-class FlatModel:
+class SellResidentialFlatModel:
     @dataclass
 
     class Location:
