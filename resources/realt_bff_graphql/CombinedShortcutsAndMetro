@@ -1,0 +1,61 @@
+query offersGetShortcutsByCategory($category: Int!, $metroData: SearchMetroInput!) {
+  offersGetShortcutsByCategory(category: $category) {
+    room                { label value }
+    layout              { label value }
+    beds                { label value }
+    repairState         { label value }
+    balconyType         { label value }
+    toilet              { label value }
+    houseType           { label value }
+    facilities          { label value }
+    facilitiesForDisabledPeople { label value }
+    backyardImprovement { label value }
+    parkingPlace        { label value }
+    accessibility       { label value }
+    basicFacilities     { label value }
+    bathroomFacilities  { label value }
+    bedroomType         { label value }
+    forChildren         { label value }
+    indoorEntertainment { label value }
+    kitchenEquipment    { label value }
+    nearbyInfrastructureAndLeisure { label value }
+    parkingBillingPeriod { label value }
+    parkingType         { label value }
+    mainSleepingPlaceType     { label value }
+    additionalSleepingPlaceType { label value }
+    windowView          { label value }
+    yardEquipment       { label value }
+    kitchen             { label value }
+    objectSubTypeFlat   { label value }
+    equipment           { label value }
+  }
+
+  metro: referenceSearchMetroMobile(data: $metroData) {
+    results {
+      uuid
+      metroStationName
+      metroStationId
+      metroLineName
+      metroLineId
+      lineUuid
+      lat
+      lng
+      distance
+    }
+  }
+
+}
+
+
+Variables
+
+{
+  "category": 77,
+  "metroData": {
+    "where": {},
+    "pagination": {
+      "pageSize": 100,
+      "page": 1
+    }
+  }
+}
