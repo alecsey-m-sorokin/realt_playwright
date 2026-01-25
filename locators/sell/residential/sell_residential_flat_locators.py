@@ -53,8 +53,17 @@ class SellResidentialFlatLocators:
         self.terms_of_deal_ownership = page.get_by_role("button", name="Частная")
         self.terms_of_deal_terms_of_deal = page.get_by_role("button", name="Чистая продажа")
 
+        """Описание - Description"""
+        self.description_title = page.get_by_role("textbox", name="Заголовок")
+        self.description_short_description = page.get_by_role("textbox", name="Краткое описание")
+        self.description_description = page.locator("iframe[title=\"Rich Text Area\"]").content_frame.locator("html")
 
-
+        """Контакты - Contacts"""
+        self.contacts_show_phones_list = page.get_by_role("button", name="Показать список")
+        self.contacts_clear_phone = page.get_by_role("button", name="Очистить")
+        self.contacts_phone = page.get_by_role("textbox", name="Телефон")
+        self.contacts_name = page.get_by_role("textbox", name="Имя (контактное)")
+        self.save_and_continue = page.get_by_role("button", name="Сохранить и продолжить")
 
 
 """

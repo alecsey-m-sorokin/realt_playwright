@@ -173,3 +173,24 @@ class SellResidentialFlatPage:
         self._wait_and_click(locator=self.locators.location_dropdown(terms_of_deal))
         return self
 
+    def fill_description_short_description(self, short_description: str) -> 'SellResidentialFlatPage':
+        """Заполнить поле "Описание" - 'Краткое описание'"""
+        self._wait_and_fill(locator=self.locators.description_short_description, value=short_description)
+        return self
+
+    def fill_contacts_phones(self, phones: str) -> 'SellResidentialFlatPage':
+        """Заполнить поле "Контакты" - 'Телефон'"""
+        self._wait_and_click(locator=self.locators.contacts_show_phones_list)
+        self._wait_and_click(locator=self.locators.contacts_clear_phone)
+        self._wait_and_fill(locator=self.locators.contacts_phone, value=phones, clear=False)
+        return self
+
+    def fill_contacts_name(self, name: str) -> 'SellResidentialFlatPage':
+        """Заполнить поле "Контакты" - 'Имя (контактное)'"""
+        self._wait_and_fill(locator=self.locators.contacts_name, value=name)
+        return self
+
+    def click_save_and_continue(self) -> 'SellResidentialFlatPage':
+        """Нажать 'Сохранить и продолжить'"""
+        self._wait_and_click(locator=self.locators.save_and_continue)
+        return self

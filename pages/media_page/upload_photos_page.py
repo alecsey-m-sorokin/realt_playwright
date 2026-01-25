@@ -12,10 +12,10 @@ class UploadMediaPage:
     """Page Object для страницы 'Подать объявление - продажа квартира - загрузка фото'"""
 
     page: Page
+    locators: UploadPhotosPageLocators
     file_chooser_timeout = 15000
     upload_verification_timeout = 30000
     post_upload_delay = 3000
-    locators: UploadPhotosPageLocators
 
     def upload_photos(self, photos: List[str]):
         """Загружает фотографии и проверяет их отображение на странице"""
