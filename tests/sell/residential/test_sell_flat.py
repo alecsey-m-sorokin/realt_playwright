@@ -1,6 +1,6 @@
 # from locators.main_page_l import LoginPageLocators
 
-from locators.login_page.login_page_l import LoginPageLocators
+from locators.login_page.login_page_locators import LoginPageLocators
 from locators.media_page.upload_photos_page_locators import UploadPhotosPageLocators
 from locators.sell.residential.sell_residential_flat_locators import SellResidentialFlatLocators
 

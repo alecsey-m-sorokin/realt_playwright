@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from loguru import logger
 from playwright.sync_api import Page, expect
 
-from locators.login_page.login_page_l import LoginPageLocators
+from locators.login_page.login_page_locators import LoginPageLocators
 
 
 @dataclass
