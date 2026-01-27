@@ -35,18 +35,11 @@ class TestRentFlatForDay:
             .click_residential_button() \
             .click_flat_button() \
             .click_understand() \
-            .location.fill_settlement(location='Минск', name='г. Минск Минский р-н, Минская область') \
+            .location \
+                .fill_settlement(location='Минск', name='г. Минск Минский р-н, Минская область') \
+                .fill_street(location='Берута', name='Берута ул') \
+                .fill_house_number(number="11") \
+                .fill_building_number(number="a") \
             .base \
-            .location.fill_street(location='Берута', name='Берута ул') \
-            .base \
-            .location.fill_house_number(number="11") \
-            .base \
-            .location.fill_building_number(number="a")
+        .rent_page.fill_apartment_rooms(rooms='4')
 
-        rent_page.fill_apartment_rooms(rooms='4')
-
-
-        #
-        # """Квартира - Apartment """
-        # sell_page \
-        #     .fill_apartment_rooms(rooms='4') \
