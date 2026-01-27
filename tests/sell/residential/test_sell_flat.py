@@ -20,7 +20,7 @@ class TestLoginAndSellFlat:
         login_page_locators = LoginPageLocators(page)
         login_page = LoginPage(page, login_page_locators)
         login_page\
-            .open() \
+            .open(url=login_page_locators.url) \
             .is_loaded() \
             .fill_email('prod_user_01@rover.info') \
             .click_continue() \

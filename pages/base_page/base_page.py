@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Union
+from typing import Union, Callable
 
 from playwright.sync_api import Page, expect, Locator
 
@@ -25,6 +25,15 @@ class BasePage:
                 return self
             return wrapper
         return attr
+
+    def execute(self, action: Callable[[Page], None]) -> 'BasePage':
+        """Выполняет любое действие с page и возвращает self
+        :param action: Действие, которое нужно выполнить
+        :return: self
+        :example: execute(lambda p: p.wait_for_timeout(timeout=500))
+        """
+        action(self.page)
+        return self
 
     def _wait_and_fill(self, locator: Union[Locator, str], value: str, timeout: int = wait_timeout, clear: bool = True) -> None:
         """Общий метод для заполнения полей ввода"""
@@ -79,28 +88,28 @@ class BasePage:
 
         base: BasePage
 
-        def fill_settlement(self, location: str, name):
+        def fill_settlement(self, location: str, name) -> 'base.Location':
             """Заполнить поле 'Населенный пункт, район, область'"""
             self.base._wait_and_fill(locator=self.base.locators.location_settlement, value=location)
             self.base._wait_and_click(locator=self.base.locators.location_dropdown(name))
             return self
 
-        def fill_street(self, location: str, name):
+        def fill_street(self, location: str, name) -> 'BasePage.Location':
             """Заполнить поле 'Улица'"""
             self.base._wait_and_fill(locator=self.base.locators.location_street, value=location)
             self.base._wait_and_click(locator=self.base.locators.location_dropdown(name))
             return self
 
-        def fill_house_number(self, number: str):
+        def fill_house_number(self, number: str) -> 'BasePage.Location':
             """Заполнить поле 'Дом'"""
             self.base._wait_and_fill(locator=self.base.locators.location_house_number, value=number)
             return self
 
-        def fill_building_number(self, number: str):
+        def fill_building_number(self, number: str) -> 'BasePage.Location':
             """Заполнить поле 'Корпус'"""
             self.base._wait_and_fill(locator=self.base.locators.location_building_number, value=number)
             return self
 
-        def build(self):
-            """Метод для выхода из Location обратно в Page"""
+        def parent(self):
+            """Метод для выхода из Location обратно в BasePage"""
             return self.base

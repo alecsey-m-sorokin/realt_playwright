@@ -14,9 +14,9 @@ class RentFlatForDayLocators(BasePageLocators):
     wait_timeout = 5000
     common_delay = 1000
 
-    def location_dropdown(self, name: str) -> Locator:
-        # {name} подставится в строку при вызове метода
-        return self.page.get_by_role(role="button", name=name)
+    # def location_dropdown(self, name: str) -> Locator:
+    #     # {name} подставится в строку при вызове метода
+    #     return self.page.get_by_role(role="button", name=name)
 
     def __init__(self, page: Page):
         super().__init__(page)
@@ -27,7 +27,7 @@ class RentFlatForDayLocators(BasePageLocators):
         self.residential_button = page.get_by_role(role="button", name="Жилая")
         self.flat_button = page.get_by_role(role="button", name="Квартира")
 
-
+        self.rooms = page.get_by_text(text="5", exact=True)
 
 
 """
