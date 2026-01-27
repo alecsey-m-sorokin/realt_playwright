@@ -12,7 +12,14 @@ class BasePageLocators:
 
     def location_dropdown(self, name: str) -> Locator:
         # {name} подставится в строку при вызове метода
-        return self.page.get_by_role(role="button", name=name)
+        role_locator = self.page.get_by_role(role="button", name=name)
+        text_locator = self.page.get_by_text(name, exact=True)
+        return role_locator.or_(text_locator)
+
+    def location_dropdown_v2(self, name: str, by_role: bool = True) -> Locator:
+        if by_role:
+            return self.page.get_by_role(role="button", name=name)
+        return self.page.get_by_text(name, exact=True)
 
     def __init__(self, page: Page):
         self.page = page

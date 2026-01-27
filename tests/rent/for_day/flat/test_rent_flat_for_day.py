@@ -37,5 +37,5 @@ class TestRentFlatForDay:
                 .fill_house_number(number="11") \
                 .fill_building_number(number="a") \
             .parent() \
-            .fill_apartment_rooms(rooms='4')
+            .fill_apartment_rooms(rooms='7')
 

@@ -40,5 +40,6 @@ class RentFlatForDayPage(BasePage):
     def fill_apartment_rooms(self, rooms: str) -> 'RentFlatForDayPage':
         """Выбрать "Квартира" - 'Комнат'"""
         # self._wait_and_click(locator=self.locators.rooms)
-        self._wait_and_click(locator=self.locators.rooms)
+        # self._wait_and_click(locator=self.locators.location_dropdown_v2(name=rooms, by_role=False))
+        self._wait_and_click(locator=self.locators.location_dropdown(name=rooms))
         return self
