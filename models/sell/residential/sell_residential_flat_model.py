@@ -5,7 +5,6 @@ from typing import Optional, Any, List
 @dataclass
 class SellResidentialFlatModel:
     @dataclass
-
     class Location:
         settlement: str
         street: Optional[str] = None

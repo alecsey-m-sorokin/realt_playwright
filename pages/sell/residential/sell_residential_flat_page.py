@@ -41,7 +41,7 @@ class SellResidentialFlatPage:
         element.click()
         self.page.wait_for_timeout(self.common_delay)
 
-    def open(self) -> 'LoginPage':
+    def open(self) -> 'SellResidentialFlatPage':
         """Открыть страницу подачи"""
         self.page.goto(self.locators.url)
         return self
