@@ -27,7 +27,9 @@ class RentFlatForDayLocators(BasePageLocators):
         self.residential_button = page.get_by_role(role="button", name="Жилая")
         self.flat_button = page.get_by_role(role="button", name="Квартира")
 
-        self.rooms = page.get_by_text(text="5", exact=True)
+        self.object_type = page.get_by_text("Квартира", exact=True)
+        self.object_rooms = page.get_by_text(text="5", exact=True)
+        self.object_rooms_dropdown = lambda rooms: page.get_by_text(text=rooms, exact=True)
 
 
 """
@@ -50,6 +52,8 @@ def test_example(page: Page) -> None:
     page.get_by_role("button", name="Квартира").click()
     page.get_by_role("button", name="Понятно").click()
     page.get_by_text("Квартира", exact=True).click()
+    page.get_by_text("Апартаменты").click()
+    page.get_by_text("Студия").first.click()
     page.get_by_role("textbox", name="Адрес").click()
     page.get_by_role("textbox", name="Адрес").fill("минск")
     page.get_by_role("button", name="г. Минск Минский р-н, Минская область").click()

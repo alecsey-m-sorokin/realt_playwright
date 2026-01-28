@@ -25,8 +25,7 @@ class TestRentFlatForDay:
         rent_page \
             .select_adv_type() \
         .location \
-            .fill_location(object_location=ObjectLocationsTestData.MINSK_BERUTA_11_A)
-
-
-            # .parent() \
-            # .fill_apartment_rooms(rooms='7')
+            .fill_location(object_location=ObjectLocationsTestData.MINSK_BERUTA_11_A) \
+        .parent() \
+        .execute(lambda rooms: rooms.get_by_text(text='9', exact=True).click())
+        # .fill_apartment_rooms(rooms='7') \
