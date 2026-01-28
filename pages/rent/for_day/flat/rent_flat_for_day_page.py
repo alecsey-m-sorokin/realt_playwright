@@ -37,6 +37,18 @@ class RentFlatForDayPage(BasePage):
         self.page.wait_for_timeout(timeout=self.common_delay)
         return self
 
+    def select_adv_type(self):
+        self.open(url=self.locators.url) \
+            .click_add_adv() \
+            .is_loaded(url=self.locators.url) \
+            .click_rent_for_day_button() \
+            .wait(500) \
+            .click_residential_button() \
+            .wait_for_timeout(500) \
+            .click_flat_button() \
+            .click_understand()
+        return self
+
     def fill_apartment_rooms(self, rooms: str) -> 'RentFlatForDayPage':
         """Выбрать "Квартира" - 'Комнат'"""
         # self._wait_and_click(locator=self.locators.rooms)
