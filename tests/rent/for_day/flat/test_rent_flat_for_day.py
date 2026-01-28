@@ -5,6 +5,7 @@ from locators.rent.for_day.flat.rent_flat_for_day_locators import RentFlatForDay
 from pages.login_page.login_page import LoginPage
 from pages.rent.for_day.flat.rent_flat_for_day_page import RentFlatForDayPage
 from test_data.login.login_test_data import Users
+from test_data.object_location_test_data import ObjectLocationsTestData
 
 
 class TestRentFlatForDay:
@@ -24,9 +25,8 @@ class TestRentFlatForDay:
         rent_page \
             .select_adv_type() \
         .location \
-            .fill_settlement(location='Минск', name='г. Минск Минский р-н, Минская область') \
-            .fill_street(location='Берута', name='Берута ул') \
-            .fill_house_number(number="11") \
-            .fill_building_number(number="a") \
-            .parent() \
-            .fill_apartment_rooms(rooms='7')
+            .fill_location(object_location=ObjectLocationsTestData.MINSK_BERUTA_11_A)
+
+
+            # .parent() \
+            # .fill_apartment_rooms(rooms='7')

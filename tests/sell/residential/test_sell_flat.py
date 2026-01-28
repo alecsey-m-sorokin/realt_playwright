@@ -42,8 +42,8 @@ class TestLoginAndSellFlat:
             .click_flat_button() \
             .fill_settlement(location='Минск', name='г. Минск Минский р-н, Минская область') \
             .fill_street(location='Берута', name='Берута ул') \
-            .fill_house_number(number='11') \
-            .fill_building_number(number='а') \
+            .fill_location_house_number(house_number='11') \
+            .fill_location_building_number(building_number='а') \
             .wait(1000)
 
         """Квартира - Apartment """

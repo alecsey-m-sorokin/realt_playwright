@@ -5,6 +5,7 @@ from playwright.sync_api import Page, expect, Locator
 
 from locators.base_page.base_page_locators import BasePageLocators
 from locators.sell.residential.sell_residential_flat_locators import SellResidentialFlatLocators
+from models.object_location_model import ObjectLocationModel
 
 
 @dataclass
@@ -88,28 +89,35 @@ class BasePage:
 
         base: BasePage
 
-        def fill_settlement(self, location: str, name) -> 'base.Location':
+        def fill_location_settlement(self, settlement: str, settlement_name) -> 'base.Location':
             """Заполнить поле 'Населенный пункт, район, область'"""
-            self.base._wait_and_fill(locator=self.base.locators.location_settlement, value=location)
-            self.base._wait_and_click(locator=self.base.locators.location_dropdown(name))
+            self.base._wait_and_fill(locator=self.base.locators.location_settlement, value=settlement)
+            self.base._wait_and_click(locator=self.base.locators.location_dropdown(settlement_name))
             return self
 
-        def fill_street(self, location: str, name) -> 'BasePage.Location':
+        def fill_location_street(self, street: str, street_name) -> 'BasePage.Location':
             """Заполнить поле 'Улица'"""
-            self.base._wait_and_fill(locator=self.base.locators.location_street, value=location)
-            self.base._wait_and_click(locator=self.base.locators.location_dropdown(name))
+            self.base._wait_and_fill(locator=self.base.locators.location_street, value=street)
+            self.base._wait_and_click(locator=self.base.locators.location_dropdown(street_name))
             return self
 
-        def fill_house_number(self, number: str) -> 'BasePage.Location':
+        def fill_location_house_number(self, house_number: str) -> 'BasePage.Location':
             """Заполнить поле 'Дом'"""
-            self.base._wait_and_fill(locator=self.base.locators.location_house_number, value=number)
+            self.base._wait_and_fill(locator=self.base.locators.location_house_number, value=house_number)
             return self
 
-        def fill_building_number(self, number: str) -> 'BasePage.Location':
+        def fill_location_building_number(self, building_number: str) -> 'BasePage.Location':
             """Заполнить поле 'Корпус'"""
-            self.base._wait_and_fill(locator=self.base.locators.location_building_number, value=number)
+            self.base._wait_and_fill(locator=self.base.locators.location_building_number, value=building_number)
             return self
 
         def parent(self):
             """Метод для выхода из Location обратно в BasePage"""
             return self.base
+
+        def fill_location(self, object_location: ObjectLocationModel):
+            self.fill_location_settlement(settlement=object_location.settlement, settlement_name=object_location.settlement_name) \
+                .fill_location_street(street=object_location.street, street_name=object_location.street_name) \
+                .fill_location_house_number(house_number=object_location.house_number) \
+                .fill_location_building_number(building_number=object_location.building_number)
+            return self
