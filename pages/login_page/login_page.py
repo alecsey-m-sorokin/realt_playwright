@@ -18,21 +18,6 @@ class LoginPage(BasePage):
     def and_(self) -> 'LoginPage':
         return self
 
-    # def open(self) -> 'LoginPage':
-    #     """Открыть страницу логина"""
-    #     self.page.goto(self.locators.url)
-    #     return self
-    #
-    # def is_loaded(self) -> 'LoginPage':
-    #     self.page.wait_for_load_state("load")
-    #     expect(self.page).to_have_url(self.locators.url)
-    #     self.page.wait_for_timeout(1000)
-    #     return self
-
-    # def wait(self, timeout: float) -> 'LoginPage':
-    #     self.page.wait_for_timeout(timeout)
-    #     return self
-
     def open_login_form(self) -> 'LoginPage':
         self.locators.login_link.click()
         return self
