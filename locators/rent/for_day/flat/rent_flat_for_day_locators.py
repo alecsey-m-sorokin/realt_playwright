@@ -27,9 +27,21 @@ class RentFlatForDayLocators(BasePageLocators):
         self.residential_button = page.get_by_role(role="button", name="Жилая")
         self.flat_button = page.get_by_role(role="button", name="Квартира")
 
+        """Объект - Object"""
         self.object_type = page.get_by_text("Квартира", exact=True)
-        self.object_rooms = page.get_by_text(text="5", exact=True)
+        self.object_rooms = page.get_by_text(text="9", exact=True)
         self.object_rooms_dropdown = lambda rooms: page.get_by_text(text=rooms, exact=True)
+        self.object_kitchen = page.get_by_text(text="Кухня-столовая", exact=True)
+        self.object_kitchen_dropdown = lambda kitchen: page.get_by_text(text=kitchen, exact=True)
+        self.object_repair = page.get_by_text(text="Евроремонт")
+        self.object_repair_dropdown = lambda repair: page.get_by_text(text=repair, exact=True)
+
+        """Площадь - Area"""
+        self.object_total_area = page.get_by_role(role="textbox", name="Площадь общая, м²")
+        self.object_total_area_dropdown = lambda total_area: page.get_by_text(text=total_area, exact=True)
+
+
+
 
 
 """

@@ -2,6 +2,7 @@ from dataclasses import asdict
 
 from locators.login_page.login_page_locators import LoginPageLocators
 from locators.rent.for_day.flat.rent_flat_for_day_locators import RentFlatForDayLocators
+from models.rent.for_day.flat.rent_flat_for_day_model import RentFlatForDayModel
 from pages.login_page.login_page import LoginPage
 from pages.rent.for_day.flat.rent_flat_for_day_page import RentFlatForDayPage
 from test_data.login.login_test_data import Users
@@ -24,8 +25,14 @@ class TestRentFlatForDay:
         rent_page = RentFlatForDayPage(page, rent_flat_for_day_locators)
         rent_page \
             .select_adv_type() \
+            .click_object_type(object_type=RentFlatForDayModel().object.object_type) \
         .location \
-            .fill_location(object_location=ObjectLocationsTestData.MINSK_BERUTA_11_A) \
-        .parent() \
-        .execute(lambda rooms: rooms.get_by_text(text='9', exact=True).click())
+            .fill_location(object_location=ObjectLocationsTestData.MINSK_BERUTA_11_A)
+        rent_page \
+            .select_object_params(params=RentFlatForDayModel())
+
+
+
+
+        # .execute(lambda rooms: rooms.get_by_text(text='9', exact=True).click())
         # .fill_apartment_rooms(rooms='7') \
