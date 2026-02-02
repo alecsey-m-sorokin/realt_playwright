@@ -40,6 +40,7 @@ class BasePage:
         """Общий метод для заполнения полей ввода"""
         element = self.page.locator(locator) if isinstance(locator, str) else locator
         element.wait_for(state="visible", timeout=timeout)
+
         element.scroll_into_view_if_needed()
         element.clear() if clear else None
         element.fill(str(value))

@@ -53,18 +53,13 @@ class RentFlatForDayPage(BasePage):
 
     def click_object_type(self, object_type: str) -> 'RentFlatForDayPage':
         """Выбрать "Объект" - 'Тип объекта'"""
-        # self._wait_and_click(locator=self.locators.rooms)
-        # self._wait_and_click(locator=self.locators.location_dropdown_v2(name=rooms, by_role=False))
         self._wait_and_click(locator=self.locators.location_dropdown(name=object_type))
         return self
 
     def click_object_rooms(self, object_rooms: str) -> 'RentFlatForDayPage':
         """Выбрать "Объект" - 'Комнат'"""
-        # self._wait_and_click(locator=self.locators.rooms)
-        # self._wait_and_click(locator=self.locators.location_dropdown_v2(name=rooms, by_role=False))
-
-        # self._wait_and_click(locator=self.locators.location_dropdown(name=object_rooms))
-        self.execute(lambda rooms: rooms.locator("#object").get_by_text(text=object_rooms, exact=True).click())
+        self._wait_and_click(locator=self.locators.object_rooms(object_rooms=object_rooms))
+        # self.execute(lambda p: p.locator("#object").get_by_text(text=object_rooms, exact=True).click())
         return self
 
     def click_object_kitchen(self, object_kitchen: str) -> 'RentFlatForDayPage':
