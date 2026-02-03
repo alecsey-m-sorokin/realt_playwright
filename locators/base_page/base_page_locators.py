@@ -10,9 +10,9 @@ class BasePageLocators:
     wait_timeout = 5000
     common_delay = 1000
 
-    def location_dropdown(self, name: str) -> Locator:
+    def locate_element(self, name: str) -> Locator:
         # {name} подставится в строку при вызове метода
-        role_locator = self.page.get_by_role(role="button", name=name)
+        role_locator = self.page.get_by_role(role="button", name=name, exact=True)
         text_locator = self.page.get_by_text(name, exact=True)
         return role_locator.or_(text_locator)
 
@@ -20,6 +20,11 @@ class BasePageLocators:
         if by_role:
             return self.page.get_by_role(role="button", name=name)
         return self.page.get_by_text(name, exact=True)
+
+    def get_location_dropdown_v3(self, name: str) -> Locator:
+        # Ищет элемент, который либо является кнопкой с таким текстом,
+        # либо просто элементом с таким текстом (предпочтение кнопке)
+        return self.page.locator(f'role=button[name="{name}"], text="{name}"').first
 
     def __init__(self, page: Page):
         self.page = page

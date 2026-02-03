@@ -26,10 +26,11 @@ class RentFlatForDayLocators(BasePageLocators):
         """Объект - Object"""
         self.object_type = page.get_by_text(text="Квартира", exact=True)
         self.object_rooms = lambda object_rooms: page.locator("#object").get_by_text(text=object_rooms, exact=True)
-        self.object_kitchen = page.get_by_text(text="Кухня-столовая", exact=True)
-        self.object_kitchen_dropdown = lambda kitchen: page.get_by_text(text=kitchen, exact=True)
-        self.object_repair = page.get_by_text(text="Евроремонт")
-        self.object_repair_dropdown = lambda repair: page.get_by_text(text=repair, exact=True)
+        # self.object_kitchen = page.get_by_text(text="Кухня-столовая", exact=True)
+        self.object_kitchen = lambda kitchen: page.locator("#object").page.get_by_text(text=kitchen, exact=True)
+        # self.object_repair = page.get_by_text(text="Евроремонт")
+        self.object_repair = lambda repair: page.locator("#object").page.get_by_text(text=repair, exact=True)
+
 
         """Площадь - Area"""
         self.object_total_area = page.get_by_role(role="textbox", name="Площадь общая, м²")

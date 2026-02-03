@@ -1,11 +1,15 @@
 from dataclasses import dataclass
-from typing import Union, Callable
+from typing import Union, Callable, Literal, Optional
 
+from loguru import logger
 from playwright.sync_api import Page, expect, Locator
 
 from locators.base_page.base_page_locators import BasePageLocators
 from locators.sell.residential.sell_residential_flat_locators import SellResidentialFlatLocators
 from models.object_location_model import ObjectLocationModel
+
+# Типизация ролей для подсказок в IDE
+RoleType = Literal["button", "link", "menuitem", "tab", "checkbox", "radio"]
 
 
 @dataclass
@@ -35,6 +39,47 @@ class BasePage:
         """
         action(self.page)
         return self
+
+    def get_named_element(self, name: str, role: Optional[RoleType] = "button", root: Optional[Union[Locator, str]] = None, wait_visible: bool = False, exact: bool = True) -> Locator:
+        """
+        Универсальный поиск элемента по имени (label) с поддержкой ролей и контейнеров.
+
+        :param name: Текст, который отображается на элементе или связан с ним.
+        :param role: ARIA-роль элемента (button, link и т.д.).
+                     Если передать None, поиск пойдет только по тексту (get_by_text).
+        :param root: Родительский контейнер. Может быть строкой-селектором (например, "#id")
+                     или уже созданным локатором. Если не указан, поиск идет по всей странице.
+        :param wait_visible: Если True, метод подождет появления элемента в DOM и его видимости.
+        :param exact: Флаг строгого соответствия текста (по умолчанию True).
+        :return: Объект Locator для дальнейшего взаимодействия.
+        """
+        # 1. Определяем базу и текстовое описание для лога
+        root_desc = "page"
+        if isinstance(root, str):
+            base = self.page.locator(root)
+            root_desc = f"selector '{root}'"
+        elif isinstance(root, Locator):
+            base = root
+            root_desc = "custom locator"
+        else:
+            base = self.page
+
+        # 2. Логируем попытку поиска
+        strategy = f"role='{role}'" if role else "text-only"
+        logger.info(f"Finding element '{name}' using {strategy} within {root_desc}")
+
+        # 3. Поиск
+        if role:
+            locator = base.get_by_role(role=role, name=name, exact=exact)
+        else:
+            locator = base.get_by_text(name, exact=exact)
+
+        # 4. Опциональное ожидание с логированием
+        if wait_visible:
+            logger.debug(f"Waiting for visibility of element: '{name}'")
+            expect(locator.first).to_be_visible()
+
+        return locator
 
     def _wait_and_fill(self, locator: Union[Locator, str], value: str, timeout: int = wait_timeout, clear: bool = True) -> None:
         """Общий метод для заполнения полей ввода"""
@@ -93,13 +138,13 @@ class BasePage:
         def fill_location_settlement(self, settlement: str, settlement_name) -> 'base.Location':
             """Заполнить поле 'Населенный пункт, район, область'"""
             self.base._wait_and_fill(locator=self.base.locators.location_settlement, value=settlement)
-            self.base._wait_and_click(locator=self.base.locators.location_dropdown(settlement_name))
+            self.base._wait_and_click(locator=self.base.locators.locate_element(settlement_name))
             return self
 
         def fill_location_street(self, street: str, street_name) -> 'BasePage.Location':
             """Заполнить поле 'Улица'"""
             self.base._wait_and_fill(locator=self.base.locators.location_street, value=street)
-            self.base._wait_and_click(locator=self.base.locators.location_dropdown(street_name))
+            self.base._wait_and_click(locator=self.base.locators.locate_element(street_name))
             return self
 
         def fill_location_house_number(self, house_number: str) -> 'BasePage.Location':

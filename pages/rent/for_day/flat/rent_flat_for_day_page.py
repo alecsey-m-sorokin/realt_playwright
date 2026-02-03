@@ -6,6 +6,7 @@ from playwright.sync_api import Page, expect, Locator
 from models.rent.for_day.flat.rent_flat_for_day_model import RentFlatForDayModel
 from pages.base_page.base_page import BasePage
 from locators.rent.for_day.flat.rent_flat_for_day_locators import RentFlatForDayLocators
+from pages.property_page.property_page import PropertyPage
 
 
 @dataclass
@@ -53,12 +54,13 @@ class RentFlatForDayPage(BasePage):
 
     def click_object_type(self, object_type: str) -> 'RentFlatForDayPage':
         """Выбрать "Объект" - 'Тип объекта'"""
-        self._wait_and_click(locator=self.locators.location_dropdown(name=object_type))
+        self._wait_and_click(locator=self.locators.locate_element(name=object_type))
         return self
 
     def click_object_rooms(self, object_rooms: str) -> 'RentFlatForDayPage':
         """Выбрать "Объект" - 'Комнат'"""
-        self._wait_and_click(locator=self.locators.object_rooms(object_rooms=object_rooms))
+        self._wait_and_click(locator=self.get_named_element(name=object_rooms, root=PropertyPage.OBJECT_CONTAINER, role=None))
+        # self._wait_and_click(locator=self.locators.object_rooms(object_rooms=object_rooms))
         # self.execute(lambda p: p.locator("#object").get_by_text(text=object_rooms, exact=True).click())
         return self
 
@@ -66,14 +68,14 @@ class RentFlatForDayPage(BasePage):
         """Выбрать "Объект" - 'Кухня'"""
         # self._wait_and_click(locator=self.locators.rooms)
         # self._wait_and_click(locator=self.locators.location_dropdown_v2(name=rooms, by_role=False))
-        self._wait_and_click(locator=self.locators.location_dropdown(name=object_kitchen))
+        self._wait_and_click(locator=self.locators.locate_element(name=object_kitchen))
         return self
 
     def click_object_repair(self, object_repair: str) -> 'RentFlatForDayPage':
         """Выбрать "Объект" - 'Ремонт'"""
         # self._wait_and_click(locator=self.locators.rooms)
         # self._wait_and_click(locator=self.locators.location_dropdown_v2(name=rooms, by_role=False))
-        self._wait_and_click(locator=self.locators.location_dropdown(name=object_repair))
+        self._wait_and_click(locator=self.locators.locate_element(name=object_repair))
         return self
 
     def select_object_params(self, params:  RentFlatForDayModel) -> 'RentFlatForDayPage':
