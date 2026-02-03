@@ -81,6 +81,40 @@ class BasePage:
 
         return locator
 
+    def get_named_element_v2(self, name: str, role: Optional[RoleType] = "button", root: Optional[Union[Locator, str]] = None, exact: bool = True) -> Locator:
+        """
+        Поиск элемента с автоматическим фоллбеком.
+        Если указана роль, но такой элемент не найден за короткое время,
+        метод переключится на поиск по тексту.
+        """
+        if isinstance(root, str):
+            base = self.page.locator(root)
+        elif isinstance(root, Locator):
+            base = root
+        else:
+            base = self.page
+
+        # Если роль не указана изначально — ищем просто по тексту
+        if not role:
+            logger.info(f"Finding element '{name}' by text-only (no role)")
+            return base.get_by_text(name, exact=exact)
+
+        # Пытаемся найти по роли
+        role_locator = base.get_by_role(role=role, name=name, exact=exact)
+
+        try:
+            # Короткая проверка: есть ли такой элемент с ролью в DOM?
+            # Используем count(), так как он не ждет 30 секунд, в отличие от is_visible()
+            if role_locator.count() > 0:
+                logger.info(f"Found element '{name}' as ROLE '{role}'")
+                return role_locator
+        except Exception:
+            pass
+
+        # Если по роли не нашли — откатываемся к тексту
+        logger.info(f"Role '{role}' not found for '{name}'. Falling back to text-only search.")
+        return base.get_by_text(name, exact=exact)
+
     def _wait_and_fill(self, locator: Union[Locator, str], value: str, timeout: int = wait_timeout, clear: bool = True) -> None:
         """Общий метод для заполнения полей ввода"""
         element = self.page.locator(locator) if isinstance(locator, str) else locator
