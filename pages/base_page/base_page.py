@@ -88,84 +88,22 @@ class BasePage:
         logger.info(f"Role '{role}' not found for '{name}'. Falling back to text-only search.")
         return base.get_by_text(name, exact=exact)
 
-    def _wait_and_fill(
-            self,
-            locator: Union[Locator, str],
-            value: str,
-            timeout: int = wait_timeout,
-            clear: bool = True
-    ) -> None:
-        """Метод с проверкой редактируемости и центрированием элемента"""
+    def _wait_and_fill(self, locator: Union[Locator, str], value: str, timeout: int = wait_timeout, clear: bool = True) -> None:
+        """Общий метод для заполнения полей ввода"""
         element = self.page.locator(locator) if isinstance(locator, str) else locator
-
-        # 1. Ждем появления в DOM
-        element.wait_for(state="attached", timeout=timeout)
-
-        # 2. Скроллим так, чтобы элемент оказался в центре (помогает избежать перекрытия хедером)
+        element.wait_for(state="visible", timeout=timeout)
         element.evaluate("el => el.scrollIntoView({ block: 'center', inline: 'nearest' })")
-
-        # 3. Проверяем, можно ли в поле вводить текст
-        # fill() сам делает проверку, но явное ожидание дает более понятную ошибку при падении
-        if not element.is_editable(timeout=timeout):
-            raise Exception(f"Элемент {locator} не доступен для редактирования")
-
-        if clear:
-            element.clear()
-
+        element.scroll_into_view_if_needed()
+        element.clear() if clear else None
         element.fill(str(value))
 
-        if self.common_delay:
-            self.page.wait_for_timeout(self.common_delay)
-
-    def _wait_and_click(
-            self,
-            locator: Union[Locator, str],
-            timeout: int = wait_timeout
-    ) -> None:
-        """
-        Общий метод для клика по элементу с центрированием
-        и проверкой доступности для нажатия.
-        """
-        # 1. Подготовка локатора
+    def _wait_and_click(self, locator: Union[Locator, str], timeout: int = wait_timeout) -> None:
+        """Общий метод для клика по элементу"""
         element = self.page.locator(locator) if isinstance(locator, str) else locator
-
-        # 2. Ждем появления в DOM
-        element.wait_for(state="attached", timeout=timeout)
-
-        # 3. Скроллим элемент в центр экрана
-        # Это минимизирует риск того, что элемент перекроет фиксированный хедер или футер
-        element.evaluate("el => el.scrollIntoView({ block: 'center', inline: 'nearest' })")
-
-        # 4. Проверка на видимость и стабильность (actionability)
-        # click() в Playwright автоматически ждет, пока элемент станет кликабельным,
-        # но явный вызов scroll + wait_for(visible) делает процесс более предсказуемым.
         element.wait_for(state="visible", timeout=timeout)
-
-        # 5. Клик
-        # Мы используем встроенные проверки Playwright (visible, enabled, stable, receive events)
-        element.click(timeout=timeout)
-
-        # 6. Задержка, если она задана
-        if self.common_delay:
-            self.page.wait_for_timeout(self.common_delay)
-
-    # def _wait_and_fill(self, locator: Union[Locator, str], value: str, timeout: int = wait_timeout, clear: bool = True) -> None:
-    #     """Общий метод для заполнения полей ввода"""
-    #     element = self.page.locator(locator) if isinstance(locator, str) else locator
-    #     element.wait_for(state="visible", timeout=timeout)
-    #
-    #     element.scroll_into_view_if_needed()
-    #     element.clear() if clear else None
-    #     element.fill(str(value))
-    #     self.page.wait_for_timeout(self.common_delay)
-
-    # def _wait_and_click(self, locator: Union[Locator, str], timeout: int = wait_timeout) -> None:
-    #     """Общий метод для клика по элементу"""
-    #     element = self.page.locator(locator) if isinstance(locator, str) else locator
-    #     element.wait_for(state="visible", timeout=timeout)
-    #     element.scroll_into_view_if_needed()
-    #     element.click()
-    #     self.page.wait_for_timeout(self.common_delay)
+        element.evaluate("el => el.scrollIntoView({ block: 'center', inline: 'nearest' })")
+        element.scroll_into_view_if_needed()
+        element.click()
 
     def is_loaded(self, url: str):
         self.page.wait_for_load_state("load")
