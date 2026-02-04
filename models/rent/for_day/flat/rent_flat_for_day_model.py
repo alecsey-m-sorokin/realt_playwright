@@ -13,3 +13,11 @@ class RentFlatForDayModel:
         object_repair: Optional[str] = 'Евроремонт'
 
     object: Object = field(default_factory=Object)
+
+    @dataclass
+    class Area:
+        area_total: Optional[str] = '140'
+        area_living: Optional[str] = '80'
+        area_kitchen: Optional[str] = '25'
+
+    area: Area = field(default_factory=Area)

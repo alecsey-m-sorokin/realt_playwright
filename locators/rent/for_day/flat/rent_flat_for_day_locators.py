@@ -4,10 +4,11 @@ from playwright.sync_api import Page, Locator
 
 from locators.base_page.base_page_locators import BasePageLocators
 from pages.base_page.base_page import BasePage
+from pages.property_page.property_page import PropertyPage
 
 
 @dataclass
-class RentFlatForDayLocators(BasePageLocators):
+class RentFlatForDayLocators(BasePageLocators, PropertyPage):
     """Локаторы для страницы - 'Подать объявление аренда квартиры на сутки'"""
 
     page: Page
@@ -24,17 +25,16 @@ class RentFlatForDayLocators(BasePageLocators):
         self.flat_button = page.get_by_role(role="button", name="Квартира")
 
         """Объект - Object"""
-        self.object_type = page.get_by_text(text="Квартира", exact=True)
-        self.object_rooms = lambda object_rooms: page.locator("#object").get_by_text(text=object_rooms, exact=True)
-        # self.object_kitchen = page.get_by_text(text="Кухня-столовая", exact=True)
-        self.object_kitchen = lambda kitchen: page.locator("#object").page.get_by_text(text=kitchen, exact=True)
-        # self.object_repair = page.get_by_text(text="Евроремонт")
-        self.object_repair = lambda repair: page.locator("#object").page.get_by_text(text=repair, exact=True)
-
+        self.object_type = lambda object_type: page.get_by_text(text=object_type, exact=True)
+        self.object_rooms = lambda object_rooms: page.locator(PropertyPage.OBJECT_CONTAINER).get_by_text(text=object_rooms, exact=True)
+        self.object_kitchen = lambda object_kitchen: page.locator(PropertyPage.OBJECT_CONTAINER).page.get_by_text(text=object_kitchen, exact=True)
+        self.object_repair = lambda object_repair: page.locator(PropertyPage.OBJECT_CONTAINER).page.get_by_text(text=object_repair, exact=True)
 
         """Площадь - Area"""
-        self.object_total_area = page.get_by_role(role="textbox", name="Площадь общая, м²")
-        self.object_total_area_dropdown = lambda total_area: page.get_by_text(text=total_area, exact=True)
+        self.area_total = page.get_by_role(role="textbox", name="Площадь общая, м²")
+        self.area_living = page.get_by_role(role="textbox", name="Площадь жилая, м²")
+        self.area_kitchen = page.get_by_role(role="textbox", name="Площадь кухни, м²")
+
 
 """
 import re

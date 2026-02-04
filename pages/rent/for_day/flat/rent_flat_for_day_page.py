@@ -54,35 +54,49 @@ class RentFlatForDayPage(BasePage):
 
     def click_object_type(self, object_type: str) -> 'RentFlatForDayPage':
         """Выбрать "Объект" - 'Тип объекта'"""
-        self._wait_and_click(locator=self.locators.locate_element(name=object_type))
+        self._wait_and_click(locator=self.locators.object_type(object_type=object_type))
         return self
 
     def click_object_rooms(self, object_rooms: str) -> 'RentFlatForDayPage':
         """Выбрать "Объект" - 'Комнат'"""
-        self._wait_and_click(locator=self.get_named_element(name=object_rooms, root=PropertyPage.OBJECT_CONTAINER, role=None))
-        # self._wait_and_click(locator=self.locators.object_rooms(object_rooms=object_rooms))
+        self._wait_and_click(locator=self.locators.object_rooms(object_rooms=object_rooms))
+        # self._wait_and_click(locator=self.get_named_element(name=object_rooms, root=PropertyPage.OBJECT_CONTAINER))
         # self.execute(lambda p: p.locator("#object").get_by_text(text=object_rooms, exact=True).click())
         return self
 
     def click_object_kitchen(self, object_kitchen: str) -> 'RentFlatForDayPage':
         """Выбрать "Объект" - 'Кухня'"""
-        # self._wait_and_click(locator=self.locators.rooms)
-        # self._wait_and_click(locator=self.locators.location_dropdown_v2(name=rooms, by_role=False))
-        self._wait_and_click(locator=self.locators.locate_element(name=object_kitchen))
+        self._wait_and_click(locator=self.locators.object_kitchen(object_kitchen=object_kitchen))
         return self
 
     def click_object_repair(self, object_repair: str) -> 'RentFlatForDayPage':
         """Выбрать "Объект" - 'Ремонт'"""
-        # self._wait_and_click(locator=self.locators.rooms)
-        # self._wait_and_click(locator=self.locators.location_dropdown_v2(name=rooms, by_role=False))
-        self._wait_and_click(locator=self.locators.locate_element(name=object_repair))
+        self._wait_and_click(locator=self.locators.object_repair(object_repair=object_repair))
         return self
 
     def select_object_params(self, params:  RentFlatForDayModel) -> 'RentFlatForDayPage':
         self \
             .click_object_rooms(object_rooms=params.object.object_rooms) \
             .click_object_kitchen(object_kitchen=params.object.object_kitchen) \
-            .click_object_repair(object_repair=params.object.object_repair) \
-            .wait(3000)
+            .click_object_repair(object_repair=params.object.object_repair)
         return self
 
+    def fill_area_total(self, area_total: str) -> 'RentFlatForDayPage':
+        self._wait_and_fill(locator=self.locators.area_total, value=area_total)
+        return self
+
+    def fill_area_living(self, area_living: str) -> 'RentFlatForDayPage':
+        self._wait_and_fill(locator=self.locators.area_living, value=area_living)
+        return self
+
+    def fill_area_kitchen(self, area_kitchen: str) -> 'RentFlatForDayPage':
+        self._wait_and_fill(locator=self.locators.area_kitchen, value=area_kitchen)
+        return self
+
+    def fill_area(self, params: RentFlatForDayModel) -> 'RentFlatForDayPage':
+        self \
+            .fill_area_total(area_total=params.area.area_total) \
+            .fill_area_living(area_living=params.area.area_living) \
+            .fill_area_kitchen(area_kitchen=params.area.area_kitchen) \
+            .wait(3000)
+        return self

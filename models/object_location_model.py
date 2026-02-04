@@ -10,4 +10,3 @@ class ObjectLocationModel:
     street_name: Optional[str]
     house_number: Optional[str]
     building_number: Optional[str] = None
-

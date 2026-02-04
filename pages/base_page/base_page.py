@@ -18,7 +18,7 @@ class BasePage:
 
     page: Page
     wait_timeout = 1000
-    common_delay = 1000
+    common_delay = 500
     locators: BasePageLocators
 
     def __getattr__(self, name):
@@ -36,56 +36,29 @@ class BasePage:
         :param action: Действие, которое нужно выполнить
         :return: self
         :example: execute(lambda p: p.wait_for_timeout(timeout=500))
+        :example: self.execute(lambda p: p.locator("#object").get_by_text(text=object_rooms, exact=True).click())
         """
         action(self.page)
         return self
 
-    def get_named_element(self, name: str, role: Optional[RoleType] = "button", root: Optional[Union[Locator, str]] = None, wait_visible: bool = False, exact: bool = True) -> Locator:
+    def locate_element(self, name: str, by_role: bool = True) -> Locator:
+        if by_role:
+            return self.page.get_by_role(role="button", name=name)
+        return self.page.get_by_text(name, exact=True)
+
+    def get_named_element(self, name: str, role: Optional[RoleType] = "button", root: Optional[Union[Locator, str]] = None, exact: bool = True) -> Locator:
         """
-        Универсальный поиск элемента по имени (label) с поддержкой ролей и контейнеров.
+        Универсальный поиск элемента по имени (label) с поддержкой ролей и контейнеров с автоматическим фоллбеком.
+        Если указана роль, но такой элемент не найден за короткое время,
+        метод переключится на поиск по тексту.
 
         :param name: Текст, который отображается на элементе или связан с ним.
         :param role: ARIA-роль элемента (button, link и т.д.).
                      Если передать None, поиск пойдет только по тексту (get_by_text).
         :param root: Родительский контейнер. Может быть строкой-селектором (например, "#id")
                      или уже созданным локатором. Если не указан, поиск идет по всей странице.
-        :param wait_visible: Если True, метод подождет появления элемента в DOM и его видимости.
         :param exact: Флаг строгого соответствия текста (по умолчанию True).
         :return: Объект Locator для дальнейшего взаимодействия.
-        """
-        # 1. Определяем базу и текстовое описание для лога
-        root_desc = "page"
-        if isinstance(root, str):
-            base = self.page.locator(root)
-            root_desc = f"selector '{root}'"
-        elif isinstance(root, Locator):
-            base = root
-            root_desc = "custom locator"
-        else:
-            base = self.page
-
-        # 2. Логируем попытку поиска
-        strategy = f"role='{role}'" if role else "text-only"
-        logger.info(f"Finding element '{name}' using {strategy} within {root_desc}")
-
-        # 3. Поиск
-        if role:
-            locator = base.get_by_role(role=role, name=name, exact=exact)
-        else:
-            locator = base.get_by_text(name, exact=exact)
-
-        # 4. Опциональное ожидание с логированием
-        if wait_visible:
-            logger.debug(f"Waiting for visibility of element: '{name}'")
-            expect(locator.first).to_be_visible()
-
-        return locator
-
-    def get_named_element_v2(self, name: str, role: Optional[RoleType] = "button", root: Optional[Union[Locator, str]] = None, exact: bool = True) -> Locator:
-        """
-        Поиск элемента с автоматическим фоллбеком.
-        Если указана роль, но такой элемент не найден за короткое время,
-        метод переключится на поиск по тексту.
         """
         if isinstance(root, str):
             base = self.page.locator(root)
@@ -169,16 +142,16 @@ class BasePage:
 
         base: BasePage
 
-        def fill_location_settlement(self, settlement: str, settlement_name) -> 'base.Location':
+        def fill_location_settlement(self, settlement: str, settlement_name) -> 'BasePage.Location':
             """Заполнить поле 'Населенный пункт, район, область'"""
             self.base._wait_and_fill(locator=self.base.locators.location_settlement, value=settlement)
-            self.base._wait_and_click(locator=self.base.locators.locate_element(settlement_name))
+            self.base._wait_and_click(locator=self.base.locate_element(settlement_name))
             return self
 
         def fill_location_street(self, street: str, street_name) -> 'BasePage.Location':
             """Заполнить поле 'Улица'"""
             self.base._wait_and_fill(locator=self.base.locators.location_street, value=street)
-            self.base._wait_and_click(locator=self.base.locators.locate_element(street_name))
+            self.base._wait_and_click(locator=self.base.locate_element(street_name))
             return self
 
         def fill_location_house_number(self, house_number: str) -> 'BasePage.Location':

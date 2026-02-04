@@ -29,7 +29,8 @@ class TestRentFlatForDay:
         .location \
             .fill_location(object_location=ObjectLocationsTestData.MINSK_BERUTA_11_A)
         rent_page \
-            .select_object_params(params=RentFlatForDayModel())
+            .select_object_params(params=RentFlatForDayModel()) \
+            .fill_area(params=RentFlatForDayModel())
 
 
 
