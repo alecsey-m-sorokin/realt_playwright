@@ -85,7 +85,7 @@ def test_example(page: Page) -> None:
     page.get_by_role("textbox", name="Год постройки").fill("2010")
     page.get_by_text("3 спальни").click()
     page.get_by_role("textbox", name="Максимум гостей").click()
-    page.get_by_role("textbox", name="Максимум гостей").fill("4")
+    page.get_by_role("", name="Максимум гостей").fill("4")
     page.get_by_role("button", name="Основные спальные места").click()
     page.get_by_role("textbox", name="Основное спальное место").nth(1).click()
     page.get_by_role("textbox", name="Основное спальное место").nth(1).click()

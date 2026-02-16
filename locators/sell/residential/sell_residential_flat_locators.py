@@ -154,4 +154,31 @@ def test_example(page: Page) -> None:
     page.get_by_role("button", name="Сохранить и продолжить").click()
     page.get_by_text("Обычное").click()
 
+    page.get_by_text("Отключить бронирования день в день", exact=True).click()
+    page.get_by_role("button", name="Продолжить", exact=True).click()
+    page.get_by_role("button", name="Настроек не выбрано").click()
+    page.get_by_text("стандартная_последняя").click()
+    page.get_by_role("button", name="Скидок не выбрано").click()
+    page.get_by_text("настройка скидки", exact=True).click()
+    page.get_by_text("Предоставляется трансфер").click()
+    page.get_by_role("textbox").click()
+    page.get_by_role("textbox").fill("333")
+    page.get_by_role("button", name="Сохранить и продолжить").click()
+    page.get_by_text("Ясно! Буду обновлять календарь или настрою синхронизацию").click()
+    page.get_by_role("button", name="Продолжить", exact=True).click()
+    page.get_by_role("textbox", name="Добавьте ссылку на видео").click()
+    page.get_by_role("textbox", name="Добавьте ссылку на видео").press("ControlOrMeta+м")
+    page.get_by_role("textbox", name="Добавьте ссылку на видео").fill("http://www.youtube.com")
+    page.get_by_role("textbox", name="Добавьте ссылку на видео").click()
+    page.get_by_role("textbox", name="Добавьте ссылку на видео").dblclick()
+    page.get_by_role("textbox", name="Добавьте ссылку на видео").press("Home")
+    page.get_by_role("textbox", name="Добавьте ссылку на видео").press("Shift+End")
+    page.get_by_role("textbox", name="Добавьте ссылку на видео").press("ControlOrMeta+c")
+    page.get_by_role("textbox", name="Добавьте ссылку на ваш объект").click()
+    page.get_by_role("textbox", name="Добавьте ссылку на ваш объект").fill("http://www.youtube.com")
+    page.get_by_role("button", name="Отправить на проверку").click()
+
+
+
+
 """
